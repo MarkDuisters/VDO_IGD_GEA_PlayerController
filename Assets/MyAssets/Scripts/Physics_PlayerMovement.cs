@@ -12,6 +12,8 @@ public class Physics_PlayerMovement : MonoBehaviour
     [SerializeField] float JumpForce = 6f;
 
     bool isMoving = false;
+    int jumpCount = 0;
+    [SerializeField] int jumpLimit = 2;
 
     //float usnigned { get { return usnigned; } set { usnigned = Mathf.Abs(value); } }
 
@@ -29,19 +31,20 @@ public class Physics_PlayerMovement : MonoBehaviour
         print(isMoving);
 
     }
-
     public void OnJump(InputValue value)
     {
         bool getJump = value.isPressed;
-
-        if (getJump)
+        bool isGrounded = GroundDetection.instance.IsGrounded(transform.position);
+        if (isGrounded)
         {
+            jumpCount = 0;
+        }
+        if (getJump && isGrounded || getJump && jumpCount <= jumpLimit)
+        {
+            jumpCount++;
             rb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
         }
-
     }
-
-
     Vector3 CameraAdjustedVector(Vector3 moveDirection)
     {
         Vector3 forward = cam.transform.forward * moveDirection.z;
@@ -50,18 +53,16 @@ public class Physics_PlayerMovement : MonoBehaviour
         Vector3 finalDirection = new Vector3(combinedDirection.x, 0f, combinedDirection.z);
         return finalDirection;
     }
-
     Vector3 MoveDirection()
     {
         Vector3 adjustedMovement = new Vector3(moveInput.x, 0f, moveInput.y);
         Vector3 moveDirection = CameraAdjustedVector(adjustedMovement);
         return moveDirection;
     }
-
     void MovePlayer(Vector3 direction)
     {
-        if (!GroundDetection.instance.isGrounded(transform.position)) return;
-        
+        if (!GroundDetection.instance.IsGrounded(transform.position)) return;
+
         Vector3 forceDirection = direction * acceleration * Time.deltaTime;
 
         if (rb.linearVelocity.magnitude > maxSpeed) return;

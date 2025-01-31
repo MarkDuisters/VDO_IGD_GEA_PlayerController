@@ -7,13 +7,31 @@ public class Translation_PlayerMovement : MonoBehaviour
     Camera cam => Camera.main;
     bool isMoving = false;
     [SerializeField] float moveSpeed = 6f;
-    //float usnigned { get { return usnigned; } set { usnigned = Mathf.Abs(value); } }
+
+    Rigidbody rb => GetComponent<Rigidbody>();
+    [SerializeField] float JumpForce = 6f;
+    int jumpCount = 0;
+    [SerializeField] int jumpLimit = 2;
 
     void Update()
     {
         Vector3 getMoveDirection = MoveDirection();
         MovePlayer(getMoveDirection);
         if (isMoving) RotatePlayer(getMoveDirection);
+    }
+    public void OnJump(InputValue value)
+    {
+        bool getJump = value.isPressed;
+        bool isGrounded = GroundDetection.instance.IsGrounded(transform.position);
+        if (isGrounded)
+        {
+            jumpCount = 0;
+        }
+        if (getJump && isGrounded || getJump && jumpCount <= jumpLimit)
+        {
+            jumpCount++;
+            rb.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
+        }
     }
 
     public void OnMove(InputValue value)
@@ -32,7 +50,6 @@ public class Translation_PlayerMovement : MonoBehaviour
         //De waarde van isMoving is dus true wanneer eender welkek nop nog ingedrukt blijft.
         isMoving = moveInput.x != 0 || moveInput.y != 0;
         print(isMoving);
-
     }
 
 

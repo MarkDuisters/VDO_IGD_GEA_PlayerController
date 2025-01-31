@@ -504,6 +504,10 @@ PrefabInstance:
       value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 8345070700331616361, guid: 09aade0ecefd01e4b8f7661acf64f5c2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8345070700331616361, guid: 09aade0ecefd01e4b8f7661acf64f5c2, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
@@ -1371,10 +1375,10 @@ GameObject:
   - component: {fileID: 708002001}
   - component: {fileID: 708002004}
   - component: {fileID: 708002005}
-  - component: {fileID: 708002003}
-  - component: {fileID: 708002006}
   - component: {fileID: 708002007}
   - component: {fileID: 708002008}
+  - component: {fileID: 708002009}
+  - component: {fileID: 708002010}
   m_Layer: 3
   m_Name: PlayerController
   m_TagString: Player
@@ -1421,19 +1425,6 @@ Transform:
   - {fileID: 150492927}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &708002003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 708002000}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed92f76d0a208514782e03600632efa8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 6
 --- !u!114 &708002004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1564,24 +1555,9 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!114 &708002006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 708002000}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 010bbebd821b4534b9be71986da06a12, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  acceleration: 16
-  maxSpeed: 6
-  JumpForce: 6
 --- !u!114 &708002007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1614,9 +1590,38 @@ MonoBehaviour:
   hitLayers:
     serializedVersion: 2
     m_Bits: 64
-  hitDistance: 1.2
+  hitDistance: 1
   hitRadius: 0.5
   debugMode: 1
+--- !u!114 &708002009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708002000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f50b5a26b17b0d640a81014b89ffc0a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallAcceleration: 1.2
+--- !u!114 &708002010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 708002000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 010bbebd821b4534b9be71986da06a12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  acceleration: 40
+  maxSpeed: 20
+  JumpForce: 6
+  jumpLimit: 2
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
