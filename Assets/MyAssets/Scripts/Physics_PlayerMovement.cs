@@ -60,6 +60,8 @@ public class Physics_PlayerMovement : MonoBehaviour
 
     void MovePlayer(Vector3 direction)
     {
+        if (!GroundDetection.instance.isGrounded(transform.position)) return;
+        
         Vector3 forceDirection = direction * acceleration * Time.deltaTime;
 
         if (rb.linearVelocity.magnitude > maxSpeed) return;
