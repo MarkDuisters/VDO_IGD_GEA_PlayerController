@@ -7,11 +7,15 @@ public class Physics_PlayerMovement : MonoBehaviour
     Camera cam => Camera.main;
     Rigidbody rb => GetComponent<Rigidbody>();
 
+    [Header("Movement")]
     [SerializeField] float acceleration = 6f;
     [SerializeField] float maxSpeed = 6f;
-    [SerializeField] float JumpForce = 6f;
-
+    [Header("Minimum vertical velocity to count as moving vertically.")]
+    [SerializeField] float verticalMotionThreshold = 0.1f;
     bool isMoving = false;
+
+    [Header("Jump")]
+    [SerializeField] float JumpForce = 6f;
     int jumpCount = 0;
     [SerializeField] int jumpLimit = 2;
 
@@ -64,13 +68,31 @@ public class Physics_PlayerMovement : MonoBehaviour
         if (!GroundDetection.instance.IsGrounded(transform.position)) return;
 
         Vector3 forceDirection = direction * acceleration * Time.deltaTime;
+        Vector3 cachedVelocity = rb.linearVelocity + forceDirection;
+        rb.linearVelocity = cachedVelocity;//meer responsive, negeert massa van object
 
-        if (rb.linearVelocity.magnitude > maxSpeed) return;
-        rb.AddForce(forceDirection, ForceMode.VelocityChange);
+        #region   
+        //Kijk of de huidige berekende velocity een verticale movement heeft. Zo ja clamp niet.
+        //Op die manier clampen we enkel onze ground movement.
+        #endregion
+        
+        if (!IsMovingVertically(cachedVelocity))
+        {
+            rb.linearVelocity = Vector3.ClampMagnitude(cachedVelocity, maxSpeed);
+        }
+        #region 
+        /*rb.AddForce(forceDirection, ForceMode.VelocityChange);//Houd rekening met massa.
+        //Meer ideaal dus als je speler hevige interactie met andere rigidbodies heeft.*/
+        #endregion
     }
     void RotatePlayer(Vector3 direction)
     {
         if (direction == Vector3.zero) return;
         transform.rotation = Quaternion.LookRotation(direction);
+    }
+
+    bool IsMovingVertically(Vector3 moveDirection)
+    {
+        return moveDirection.y < -verticalMotionThreshold || moveDirection.y > verticalMotionThreshold;
     }
 }
