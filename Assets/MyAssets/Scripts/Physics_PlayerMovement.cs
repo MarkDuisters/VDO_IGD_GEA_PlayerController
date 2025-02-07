@@ -75,8 +75,7 @@ public class Physics_PlayerMovement : MonoBehaviour
         //Kijk of de huidige berekende velocity een verticale movement heeft. Zo ja clamp niet.
         //Op die manier clampen we enkel onze ground movement.
         #endregion
-        
-        if (!IsMovingVertically(cachedVelocity))
+        if (!IsMovingVertically(rb.linearVelocity))
         {
             rb.linearVelocity = Vector3.ClampMagnitude(cachedVelocity, maxSpeed);
         }
