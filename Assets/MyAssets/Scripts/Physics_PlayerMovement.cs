@@ -32,7 +32,7 @@ public class Physics_PlayerMovement : MonoBehaviour
     {
         moveInput = value.Get<Vector2>();
         isMoving = moveInput.x != 0 || moveInput.y != 0;
-        print(isMoving);
+//        print(isMoving);
 
     }
     public void OnJump(InputValue value)
